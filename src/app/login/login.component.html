@@ -1,1 +1,26 @@
-<p>login works!</p>
+
+
+<div class="container-section">
+    <h1>User Login</h1>
+    <form class="container-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <input type="text" placeholder="Enter User Id" formControlName="userName" id="userName" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.userName.errors }">
+        <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+            <div *ngIf="f.userName.errors.required">User Name is required</div>
+            <div *ngIf="f.userName.errors.minlength">
+                Name must be at least 4 characters long.
+              </div>                                   
+        </div>  
+        <input type="email" placeholder="Enter Password" formControlName="password" id="password" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>  
+            <div *ngIf="f.userName.errors.minlength">
+                Passwrod must be at least 4 characters long.
+              </div>                                 
+        </div>  
+        <button type="submit" class="btn btn-info">Login</button>
+        <p>Not a User ?</p><a routerLink="/register">Create new Account</a>
+
+    </form>
+</div>

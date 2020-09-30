@@ -1,1 +1,50 @@
-<p>registration works!</p>
+<div class="container">
+    <div class="col-12">
+        <div class="jumbotron1 col-4" *ngIf="message">
+                <div class="alert-danger message">
+                 User Id or Email already Exists.
+                </div>    
+        </div>
+    </div>
+    <div class="col-6 new-form">
+        <form class="form-horizontal container" [formGroup]="newUserForm" (ngSubmit)="onSubmit()">          
+                <h3 class="heading">Create User</h3> 
+                <div class="form-group"> 
+                        <input type="text" placeholder="Enter User Name or Id" formControlName="userId" class="form-control"
+                         [ngClass]="{'is-invalid':submitted && f.userId.errors}">
+                         <div *ngIf="submitted && f.userId.errors" class="invalid-feedback">
+                            <div *ngIf="f.userId.errors.required">User Name is required</div>
+                            <div *ngIf="f.userId.errors.minLength">User Name must be minimum 4 letters</div>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Enter Email" formControlName="email" class="form-control" 
+                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Enter password" formControlName="password"
+                     class="form-control" 
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">password is required</div>
+                        <div *ngIf="f.password.errors.minLength">Password must be minimum 4 letters</div>
+                    </div>
+                </div>
+                <div class="btn-toolbar center">
+                <button  class="btn btn-info buttonsave" type="submit">
+                    Register
+                </button>
+                <button  routerLink='/userLogin'  class="btn btn-danger buttonCancel " type="submit">
+                    Cancel
+                </button>
+                <!-- <div *ngIf="loading">
+                    <h4>Loading....</h4>
+                </div> -->
+                </div>            
+        </form>
+    </div>
+    <div class="col-3"></div>
+</div>

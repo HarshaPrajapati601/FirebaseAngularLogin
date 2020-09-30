@@ -31,7 +31,7 @@ export class RegistrationComponent implements OnInit {
       }
       else{
         this.message =false ;
-        this.route.navigate(['/userLogin']);
+        this.route.navigate(['/login']);
       }
     })
   
@@ -46,6 +46,7 @@ export class RegistrationComponent implements OnInit {
     }
      this.submitted = true; 
      this.authservice.register(this.f.userName.value , this.f.password.value , this.f.email.value);
+     
 
    }
 }

@@ -20,26 +20,48 @@ export class AuthenticationService {
   login(userName , password){
     let userObj ={
       userName : userName ,
-      password : password ,
-      email : "",
-      userid :""
-
+      password : password 
+    }
+    let stored = JSON.parse(localStorage.getItem('users'));
+    stored.filter(user=> {
+      if(user.userName != userObj.userName || user.password != userObj.password){
+        return this.validationMessage.emit(true);
+      }
+    else{
+      localStorage.setItem('current user', JSON.stringify(userObj))
+      this.currentUserSubject.next(userObj);
     }
     //validate if user already there in Registeration array
-  }
-
-  //user Logout
+  })
+}
 
   //user Registration
   register(userName , email , password){
-    let registeredStore ={
+    let stored = JSON.parse(localStorage.getItem('users'));
+    let newUser ={
       userName : userName ,
       email :email ,
       password : password,
       userId : this.registeredUsers.length + 1
     }
+    //1.check with already registered users
+    stored.includes(id=> id == newUser.userName);
+    this.foundUsers(stored ,newUser);
   }
-  
+
+  foundUsers(val ,users){
+    if(!val){
+      this.registeredUsers.push(users);
+      localStorage.setItem('users' ,JSON.stringify(this.registeredUsers));
+    }
+  }
+    //user Logout
+  logout(){
+       // remove user from local storage to log user out
+       localStorage.removeItem('current user');
+       this.currentUserSubject.next(null);
+  }
+
   //get current user
   get currentUserValue() : Users{
     return this.currentUserSubject.value;

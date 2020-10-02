@@ -22,7 +22,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.newUserForm = this.fb.group({
       userName : ['',[Validators.required , Validators.minLength(4)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
     this.authservice.validationMessage.subscribe(value=>{
@@ -45,7 +45,7 @@ export class RegistrationComponent implements OnInit {
         return;
     }
      this.submitted = true; 
-     this.authservice.register(this.f.userName.value , this.f.password.value , this.f.email.value);
+     this.authservice.register(this.f.userName.value , this.f.email.value ,this.f.password.value );
      
 
    }

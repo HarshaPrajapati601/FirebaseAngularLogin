@@ -23,16 +23,22 @@ export class AuthenticationService {
       password : password 
     }
     let stored = JSON.parse(localStorage.getItem('users'));
-    stored.filter(user=> {
-      if(user.userName != userObj.userName || user.password != userObj.password){
-        return this.validationMessage.emit(true);
+    if(stored){
+      stored.find(user=> {
+        if(user.userName != userObj.userName || user.password != userObj.password){
+          return this.validationMessage.emit(true);
+        }
+      else{
+        localStorage.setItem('current user', JSON.stringify(userObj))
+        this.currentUserSubject.next(userObj);
       }
-    else{
-      localStorage.setItem('current user', JSON.stringify(userObj))
-      this.currentUserSubject.next(userObj);
+      //validate if user already there in Registeration array
+    })
     }
-    //validate if user already there in Registeration array
-  })
+    else {
+      return this.validationMessage.emit(true);
+    }
+  
 }
 
   //user Registration
@@ -45,16 +51,23 @@ export class AuthenticationService {
       userId : this.registeredUsers.length + 1
     }
     //1.check with already registered users
-    stored.includes(id=> id == newUser.userName);
-    this.foundUsers(stored ,newUser);
+   if(stored.includes(id=> id == newUser.userName)){
+     this.validationMessage.emit(false)
+   } else{
+    this.registeredUsers.push(newUser);
+    localStorage.setItem('users' ,JSON.stringify(this.registeredUsers));
+    this.validationMessage.emit(true)
+   }
+  
+
   }
 
-  foundUsers(val ,users){
-    if(!val){
-      this.registeredUsers.push(users);
-      localStorage.setItem('users' ,JSON.stringify(this.registeredUsers));
-    }
-  }
+  // foundUsers(val ,users){
+  //   if(!val){
+  //     this.registeredUsers.push(users);
+  //     localStorage.setItem('users' ,JSON.stringify(this.registeredUsers));
+  //   }
+  // }
     //user Logout
   logout(){
        // remove user from local storage to log user out

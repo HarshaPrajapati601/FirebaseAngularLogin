@@ -2,7 +2,7 @@
 
 <div class="container-section">
     <h1>User Login</h1>
-    <form class="container-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <form class="container-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <input type="text" placeholder="Enter User Id" formControlName="userName" id="userName" class="form-control"
         [ngClass]="{ 'is-invalid': submitted && f.userName.errors }">
         <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">

@@ -1,0 +1,37 @@
+.new-form{
+    margin: 0 auto;
+    padding-top: 21px;
+    background-color: aliceblue;
+    margin-top: 25px;
+}
+.jumbotron1{
+    justify-content: center;
+    margin-top: 20px;
+    display: flex;
+}
+.message{
+    width: 287px;
+    /* height: 38px; */
+    text-align: center;
+    padding: 12px;
+}
+
+.heading{
+    text-align: center;
+}
+input{
+    height: 55px;
+    padding: 15px;
+    margin: 33px 0px;
+}
+button{
+    width: 47%;
+    margin-right: 13px;
+    /* margin: 16px 0; */
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    border: 0;
+    padding: 15px 40px;
+}

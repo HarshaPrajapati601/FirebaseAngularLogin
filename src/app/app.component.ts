@@ -20,9 +20,9 @@ export class AppComponent {
       this.currentUser = val;
     });
     //getting data from firebase db
-    db.collection('users').get().then((querySnap)=>{
+    db.collection('Users').get().then((querySnap)=>{
     const data = querySnap.docs.map(doc=>doc.data());
-    localStorage.setItem('users', JSON.stringify(data));
+    localStorage.setItem('Users', JSON.stringify(data));
     });
   }
 

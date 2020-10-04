@@ -2,6 +2,7 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { User } from 'firebase';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Users } from '../_models/User';
+import {db} from '../_service/firebase.js';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class AuthenticationService {
       userName : userName ,
       password : password 
     }
-    let stored = JSON.parse(localStorage.getItem('users'));
+    let stored = JSON.parse(localStorage.getItem('Users'));
     if(stored){
       stored.find(user=> {
         if(user.userName != userObj.userName || user.password != userObj.password){
@@ -41,33 +42,51 @@ export class AuthenticationService {
   
 }
 
+
+
+// //check for duplicate users
+// if(!found) {
+//   db.collection("users").doc(newUser.userId).set(newUser)
+//   .then(function(docRef) {
+//     console.log("Document written with ID: ", docRef);
+//   })
+//   .catch(function(error) {
+//     console.error("Error adding document: ", error);
+//   });
+
+//   this.userObject.emit(true);
+//   return this.usersArray;
+// }else{
+//   this.userObject.emit(false);
+// }
   //user Registration
   register(userName , email , password){
-    let stored = JSON.parse(localStorage.getItem('users'));
+    let stored = JSON.parse(localStorage.getItem('Users'));
     let newUser ={
       userName : userName ,
       email :email ,
       password : password,
       userId : this.registeredUsers.length + 1
     }
-    //1.check with already registered users
-   if(stored.includes(id=> id == newUser.userName)){
-     this.validationMessage.emit(false)
-   } else{
+    const found = this.registeredUsers.some(el=>el.userName == newUser.userName);
+    this.registeredUsers = JSON.parse(localStorage.getItem("Users")) || [];
     this.registeredUsers.push(newUser);
-    localStorage.setItem('users' ,JSON.stringify(this.registeredUsers));
-    this.validationMessage.emit(true)
-   }
-  
-
+    localStorage.setItem("Users", JSON.stringify(this.registeredUsers));
+    if(!found){
+      db.collection("Users").doc(newUser.userName).set(newUser)
+      .then(function(docRef){
+        console.log("Document written with ID: ", docRef);
+      })
+      .catch(function(error){
+        console.error("Error adding document: ", error);
+      });
+      this.validationMessage.emit(true);
+      return this.registeredUsers;
+    }
+    else{
+    this.validationMessage.emit(false);
   }
-
-  // foundUsers(val ,users){
-  //   if(!val){
-  //     this.registeredUsers.push(users);
-  //     localStorage.setItem('users' ,JSON.stringify(this.registeredUsers));
-  //   }
-  // }
+  }
     //user Logout
   logout(){
        // remove user from local storage to log user out
